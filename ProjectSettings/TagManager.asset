@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 3
   tags:
   - Ball
+  - Collectible
+  - joueur
+  - Projectile
+  - Walls
+  - Pad
   layers:
   - Default
   - TransparentFX

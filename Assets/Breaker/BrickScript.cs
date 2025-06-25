@@ -23,12 +23,13 @@ public class BrickScript : MonoBehaviour
     {
 
     }
-    
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if the collision is with the ball
         if (collision.gameObject.CompareTag("Ball"))
         {
+            AudioManager.Instance.PlaySound(AudioType.destroy, AudioSourceType.game);
             Destroy(gameObject);
         }
     }

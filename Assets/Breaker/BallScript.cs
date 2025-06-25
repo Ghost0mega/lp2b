@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
+
 public class BallScript : MonoBehaviour
 {
     private Rigidbody2D rb;
@@ -29,7 +30,7 @@ public class BallScript : MonoBehaviour
             // Check if the ball is out of bounds (below the screen)
             if (transform.position.y < -6 && !isSpawning)
             {
-                // Debug.Log("Ball out of bounds, respawning...");
+                AudioManager.Instance.PlaySound(AudioType.die, AudioSourceType.game);
                 StartCoroutine(SpawnBall(true));
                 placerScript.score -= 50;
                 placerScript.lives--;
@@ -63,13 +64,20 @@ public class BallScript : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Pad"))
         {
             // Get the difference in X between ball and paddle
             float diffX = transform.position.x - collision.transform.position.x;
 
             // Tweak the multiplier (e.g., 3) for how much the paddle affects the ball
             rb.linearVelocity += new Vector2(diffX * 3f, 0);
+            AudioManager.Instance.PlaySound(AudioType.bounce, AudioSourceType.player);
+        }
+
+        if (collision.gameObject.CompareTag("Walls"))
+        {
+            // Bounce off the wall
+            AudioManager.Instance.PlaySound(AudioType.bouncewall, AudioSourceType.game);
         }
     }
 
