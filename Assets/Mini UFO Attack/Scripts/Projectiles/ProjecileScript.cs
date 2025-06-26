@@ -68,7 +68,7 @@ public class Projecile : MonoBehaviour
             ContactDestroy(); 
         }
 
-        else if (collision.gameObject.CompareTag("Enemy") && isPlayerProjectile)
+        else if (collision.gameObject.CompareTag("Enemy"))
         {
             Enemy enemyScript = collision.gameObject.GetComponent<Enemy>();
             if (enemyScript != null)

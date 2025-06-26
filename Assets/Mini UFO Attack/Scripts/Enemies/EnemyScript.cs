@@ -10,6 +10,9 @@ public class Enemy : MonoBehaviour
     protected bool isMajorEnemy = false; //Used only for death animation
     [SerializeField] private GameObject MiniExplosionPrefab; // Optional explosion effect on death
     [SerializeField] private GameObject ExplosionPrefab; // Optional explosion effect on death for major enemies
+
+
+
     protected virtual void Start()
     {
         if (health <= 0)
@@ -17,6 +20,10 @@ public class Enemy : MonoBehaviour
             health = 1; // Ensure health is at least 1 to prevent immediate death
         }
         transform.position = new Vector3(11, Random.Range(-3f, 3f), 0f);
+        if (MiniExplosionPrefab == null || ExplosionPrefab == null)
+        {
+            Debug.LogWarning("MiniExplosionPrefab is not assigned in the Enemy script.");
+        }
         StartCoroutine(MoveOntoScreen(8));
     }
 
@@ -50,7 +57,7 @@ public class Enemy : MonoBehaviour
             // Play damage animation or sound if needed
         }
     }
-    private void Die()
+    protected void Die()
     {
         if (isMajorEnemy)
         {

@@ -1,10 +1,8 @@
 using UnityEngine;
 
-public class PLazerScript : Projecile
+public class EBulletScript : Projecile
 {
-
     [Header("Special Settings")]
-    
     [SerializeField] private GameObject contactEffect;
 
     override public void ContactDestroy()

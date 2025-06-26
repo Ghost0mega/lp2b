@@ -6,18 +6,22 @@ public class ERammerScript : Enemy
     [SerializeField] private float maxAcceleration = 5f;
     [SerializeField] private float maxTurningSpeed = 200f;
     [SerializeField] private Transform playerTransform;
+    public int damage = 1;
     private Rigidbody2D rb;
     override protected void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         base.Start();
-        health = 2;
     }
     // Update is called once per frame
     void Update()
     {
         if (!hasFreeWill) return;
         MoveTowardsPlayer();
+        if (transform.position.x < -15f)
+        {
+            Die();
+        }
     }
 
     private void MoveTowardsPlayer()
@@ -48,5 +52,24 @@ public class ERammerScript : Enemy
         rb.AddForce(forward * maxAcceleration, ForceMode2D.Force);
         // why no turn? :(
     }
-        
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerScript player = collision.gameObject.GetComponent<PlayerScript>();
+            if (player != null)
+            {
+                player.TakeDamage(damage);
+                // Debug.Log("Rammer collided with player, dealing " + damage + " damage.");
+                health = 0;
+                Die();
+            }
+            else
+            {
+                Debug.LogWarning("PlayerScript component not found on player GameObject.");
+            }
+            
+        }
+    }
 }

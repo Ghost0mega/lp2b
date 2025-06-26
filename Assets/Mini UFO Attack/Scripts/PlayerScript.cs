@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -8,16 +9,19 @@ public class PlayerScript : MonoBehaviour
     public int bulletLayerCount = 1; // for power-ups or upgrades
     public int bulletSideSpread = 0; //hard to implement this is for later
     public float shootCooldown = 0.5f; // can be used for power-ups or upgrades
-    private float shootTimer = 0f; 
+    private float shootTimer = 0f;
 
 
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _shootSound;
 
-    [Header("Movement Settings")]
     [SerializeField] private float speed = 10f;
-    public int lives = 10;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    [Header("Death Settings")]
+    public int lives = 1;
+
+    [SerializeField] private GameObject miniExplosionPrefab;
+    [SerializeField] private GameObject explosionPrefab;
     void Start()
     {
         Debug.Log("Player initialized with " + lives + " lives.");
@@ -38,10 +42,14 @@ public class PlayerScript : MonoBehaviour
             _audioSource.volume = .5f;
             _audioSource.clip = _shootSound;
         }
+        if (miniExplosionPrefab == null || explosionPrefab == null)
+        {
+            Debug.LogWarning("Explosion prefabs are not assigned in the PlayerScript.");
+        }
 
     }
 
-    
+
 
     // Update is called once per frame
     void Update()
@@ -100,7 +108,13 @@ public class PlayerScript : MonoBehaviour
         lives -= damage;
         if (lives <= 0)
         {
-            // Die();
+            // Debug.Log("Player has died.");
+            StartCoroutine(Die());
+        }
+        else
+        {
+            // Debug.Log("Player took damage: " + damage + ", remaining lives: " + lives);
+            // Optionally play a damage sound or animation here
         }
     }
 
@@ -121,5 +135,29 @@ public class PlayerScript : MonoBehaviour
             // if (bulletScript != null) bulletScript.damage = 1; 
         }
         _audioSource.Play();
+    }
+    
+    private IEnumerator Die()
+    {
+        Debug.Log("Player has died. Starting death sequence...");
+        speed = 0.5f;
+        GameObject newAnim = Instantiate(explosionPrefab, transform.position + new Vector3(0f, 0f, -3f), Quaternion.identity);
+        newAnim.transform.localScale = transform.localScale * 0.8f;
+
+        for (int i = 0; i < 30; i++)
+        {
+            Vector3 randomOffset = new Vector3(UnityEngine.Random.Range(-0.7f, 0.7f), UnityEngine.Random.Range(-0.7f, 0.7f), -3);
+            transform.position += randomOffset * 0.1f;
+            bool eType = true; // true for mini explosion, false for big explosion
+            if (i % 3 == 0) eType = false; // every third
+            GameObject explosionPrefab = eType ? miniExplosionPrefab : this.explosionPrefab;
+            GameObject explosion = Instantiate(explosionPrefab, transform.position + randomOffset, Quaternion.identity);
+            explosion.transform.localScale = eType ? transform.localScale : transform.localScale * 0.3f;
+            yield return new WaitForSeconds(0.1f);
+        }
+        GameObject finalExplosion = Instantiate(explosionPrefab, transform.position + new Vector3(0f, 0f, -3f), Quaternion.identity);
+        GameObject finalExplosion2 = Instantiate(miniExplosionPrefab, transform.position + new Vector3(0f, 0f, -3f), Quaternion.identity);
+        finalExplosion2.transform.localScale = transform.localScale * 20f;
+        Destroy(gameObject);
     }
 }
