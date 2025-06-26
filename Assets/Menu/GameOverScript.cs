@@ -60,7 +60,7 @@ public class GameOverScript : MonoBehaviour
         // }
         Destroy(gameObject);
     }
-
+ 
     private void AdaptToScene()
     {
         Scene currentScene = SceneManager.GetActiveScene();
