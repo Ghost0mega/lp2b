@@ -6,16 +6,21 @@ public class ControllerScript : MonoBehaviour
     public static int score = 0; // Score variable to keep track of the score
     public bool isGameRunning = true; // Variable to control the game state
 
-    public float maxTime = 90.0f;
+    public float maxTime;
     private float timeRemaining;
 
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI timerText;
+
+    [Header("Game Over Logic")]
+    [SerializeField] private GameObject canvas; 
+    [SerializeField] private GameObject gameOverPanel;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void Start()
     {
-        StartGame();
+        ResetGame();
     }
 
     // Update is called once per frame
@@ -30,10 +35,13 @@ public class ControllerScript : MonoBehaviour
             {
                 StopGame(); // Stop the game when time runs out
             }
+        } else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ResetGame();
         }
     }
 
-    private void StartGame()
+    public void ResetGame()
     {
         isGameRunning = true;
         SpawnerScript.isSpawning = true; // Start spawning fruits
@@ -47,8 +55,22 @@ public class ControllerScript : MonoBehaviour
     {
         isGameRunning = false;
         SpawnerScript.isSpawning = false; // Stop spawning fruits
-        timerText.text = "Time's up!";
-        scoreText.text = "Final Score: " + score;
+        // timerText.text = "Time's up!";
+        // scoreText.text = "Final Score: " + score;
+        if (gameOverPanel != null && canvas != null)
+        {
+            GameObject panel = Instantiate(gameOverPanel, canvas.transform);
+            GameOverScript gameOverScript = panel.GetComponent<GameOverScript>();
+            if (gameOverScript != null)
+            {
+                gameOverScript.finalScore = score;
+                gameOverScript.catcherController = this;
+            }
+            else
+            {
+                Debug.LogError("GameOverScript component not found on the game over panel.");
+            }
+        }
     }
 
     public void AddScore(int value)

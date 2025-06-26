@@ -4,6 +4,7 @@ using TMPro;
 
 public class PlacerScript : MonoBehaviour
 {
+    [Header("Placer Settings")]
     [SerializeField] private GameObject BrickPrefab;
     private static float maxX = 5;
     private static float minX = -5f;
@@ -16,7 +17,7 @@ public class PlacerScript : MonoBehaviour
     private int rows = 10;
     private int columns = 10;
 
-
+    [Header("Scorer Settings")]
     public int score = 0;
     public int lives = 3;
 
@@ -27,6 +28,11 @@ public class PlacerScript : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI scoreText;
     public List<UnityEngine.UI.Image> livesImages;
+
+    [Header("Game Over Logic")]
+    [SerializeField] private GameObject canvas; 
+    [SerializeField] private GameObject gameOverPanel;
+    private bool gameOverPanelActive = false;
 
     void Start()
     {
@@ -87,17 +93,28 @@ public class PlacerScript : MonoBehaviour
             {
                 score = 0; // Prevent negative score
             }
-            scoreText.text = "Game Over! Final Score: " + score;
+            // scoreText.text = "Game Over! Final Score: " + score;
             UpdateLivesImages();
-            // foreach (GameObject brick in bricks)
-            // {
-            //     Destroy(brick); // Destroy remaining bricks
-            // }
-            // bricks.Clear();
 
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 ResetGame(); // Reset the game when space is pressed
+            }
+
+            if (!gameOverPanelActive)
+            {
+                gameOverPanelActive = true;
+                GameObject panel = Instantiate(gameOverPanel, canvas.transform);
+                GameOverScript gameOverScript = panel.GetComponent<GameOverScript>();
+                if (gameOverScript != null)
+                {
+                    gameOverScript.finalScore = score;
+                    gameOverScript.breakerController = this;
+                }
+                else
+                {
+                    Debug.LogError("GameOverScript component not found on the panel.");
+                }
             }
         }
     }

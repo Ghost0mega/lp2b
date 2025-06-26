@@ -4453,6 +4453,8 @@ MonoBehaviour:
   - {fileID: 76305896}
   - {fileID: 2038462271}
   - {fileID: 1850515485}
+  canvas: {fileID: 1976584131}
+  gameOverPanel: {fileID: 680671745446444067, guid: 5f67aa7e0ec8db7478e39dafd922c607, type: 3}
 --- !u!1 &1170501131
 GameObject:
   m_ObjectHideFlags: 0
