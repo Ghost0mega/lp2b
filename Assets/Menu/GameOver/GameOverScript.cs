@@ -38,7 +38,7 @@ public class GameOverScript : MonoBehaviour
 
     public void BackToMenu()
     {
-        // SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("Menu");
         Debug.Log("Back to Menu");
         Destroy(gameObject);
     }

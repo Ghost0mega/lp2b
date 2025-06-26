@@ -262,7 +262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGameRunning: 1
-  maxTime: 10
+  maxTime: 90
   scoreText: {fileID: 1806034566}
   timerText: {fileID: 2125657957}
   canvas: {fileID: 773122172}
