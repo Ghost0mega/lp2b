@@ -22,7 +22,7 @@ public enum AudioSourceType
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance { get; private set; }
-    public float volume = 1.0f;
+    public float volume = .1f;
     public AudioSource playerSound;
     public AudioSource gameSound;
 
