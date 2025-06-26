@@ -5937,7 +5937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95bc6c978b55e9b4780f3e19f35802ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volume: 1
+  volume: 0.3
   playerSound: {fileID: 412275815}
   gameSound: {fileID: 1613169126}
   audioClips:
@@ -5953,6 +5953,8 @@ MonoBehaviour:
     type: 2
   - clip: {fileID: 8300000, guid: 37e78606ea951024f9d9f645e7e5f19e, type: 3}
     type: 3
+  - clip: {fileID: 8300000, guid: 85e6b45e059592b42b8790aa2b2d4f81, type: 3}
+    type: 4
 --- !u!4 &1668042749
 Transform:
   m_ObjectHideFlags: 0

@@ -30,7 +30,7 @@ public class BallScript : MonoBehaviour
             // Check if the ball is out of bounds (below the screen)
             if (transform.position.y < -6 && !isSpawning)
             {
-                AudioManager.Instance.PlaySound(AudioType.die, AudioSourceType.game);
+                AudioManager_BrickBreaker.Instance.PlaySound(AudioType_BrickBreaker.die, AudioSourceType_BrickBreaker.game);
                 StartCoroutine(SpawnBall(true));
                 placerScript.score -= 50;
                 placerScript.lives--;
@@ -71,13 +71,13 @@ public class BallScript : MonoBehaviour
 
             // Tweak the multiplier (e.g., 3) for how much the paddle affects the ball
             rb.linearVelocity += new Vector2(diffX * 3f, 0);
-            AudioManager.Instance.PlaySound(AudioType.bounce, AudioSourceType.player);
+            AudioManager_BrickBreaker.Instance.PlaySound(AudioType_BrickBreaker.bounce, AudioSourceType_BrickBreaker.player);
         }
 
         if (collision.gameObject.CompareTag("Walls"))
         {
             // Bounce off the wall
-            AudioManager.Instance.PlaySound(AudioType.bouncewall, AudioSourceType.game);
+            AudioManager_BrickBreaker.Instance.PlaySound(AudioType_BrickBreaker.bouncewall, AudioSourceType_BrickBreaker.game);
         }
     }
 

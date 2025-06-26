@@ -53,7 +53,7 @@ public class PlacerScript : MonoBehaviour
             if (bricks.Count == 0)
             {
                 PlaceBricks(); // Refill bricks if all are destroyed
-                AudioManager.Instance.PlaySound(AudioType.win, AudioSourceType.game);
+                AudioManager_BrickBreaker.Instance.PlaySound(AudioType_BrickBreaker.win, AudioSourceType_BrickBreaker.game);
                 // ballScript.StartCoroutine(ballScript.SpawnBall(true)); // Respawn the ball
 
             }
@@ -80,7 +80,7 @@ public class PlacerScript : MonoBehaviour
             // Game over logic
             if (playSound == false)
             {
-                AudioManager.Instance.PlaySound(AudioType.gameover, AudioSourceType.game);
+                AudioManager_BrickBreaker.Instance.PlaySound(AudioType_BrickBreaker.gameover, AudioSourceType_BrickBreaker.game);
                 playSound = true;
             }
             if (score < 0)
@@ -160,5 +160,6 @@ public class PlacerScript : MonoBehaviour
         bricks.Clear();
         PlaceBricks(); // Refill bricks
         ballScript.StartCoroutine(ballScript.SpawnBall(true)); // Respawn the ball
+        AudioManager_BrickBreaker.Instance.PlaySound(AudioType_BrickBreaker.start, AudioSourceType_BrickBreaker.game);
     }
 }

@@ -2,37 +2,39 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public enum AudioType
+public enum AudioType_BrickBreaker
 {
-
+    // Brick breaker
     bounce,
     die,
     gameover,
     destroy,
     start,
     win,
-    bouncewall
+    bouncewall,
+
+
 }
 
-public enum AudioSourceType
+public enum AudioSourceType_BrickBreaker
 {
     player,
     game
 }
-public class AudioManager : MonoBehaviour
+public class AudioManager_BrickBreaker : MonoBehaviour
 {
-    public static AudioManager Instance { get; private set; }
+    public static AudioManager_BrickBreaker Instance { get; private set; }
     public float volume = .1f;
     public AudioSource playerSound;
     public AudioSource gameSound;
 
     [System.Serializable]
-    public struct AudioData
+    public struct AudioData_BrickBreaker
     {
         public AudioClip clip;
-        public AudioType type;
+        public AudioType_BrickBreaker type;
     }
-    public AudioData[] audioClips;
+    public AudioData_BrickBreaker[] audioClips;
     void Start()
     {
         gameSound.volume = volume;
@@ -43,7 +45,7 @@ public class AudioManager : MonoBehaviour
         Instance = this;
     }
 
-    public void PlaySound(AudioType type, AudioSourceType sourceType)
+    public void PlaySound(AudioType_BrickBreaker type, AudioSourceType_BrickBreaker sourceType)
     {
 
         AudioClip clip = getClip(type);
@@ -54,17 +56,17 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        if (sourceType == AudioSourceType.player)
+        if (sourceType == AudioSourceType_BrickBreaker.player)
         {
             playerSound.PlayOneShot(clip);
         }
-        else if (sourceType == AudioSourceType.game)
+        else if (sourceType == AudioSourceType_BrickBreaker.game)
         {
             gameSound.PlayOneShot(clip);
         }
     }
 
-    AudioClip getClip(AudioType type)
+    AudioClip getClip(AudioType_BrickBreaker type)
     {
         foreach (var audioData in audioClips)
         {

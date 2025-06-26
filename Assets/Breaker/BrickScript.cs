@@ -29,7 +29,7 @@ public class BrickScript : MonoBehaviour
         // Check if the collision is with the ball
         if (collision.gameObject.CompareTag("Ball"))
         {
-            AudioManager.Instance.PlaySound(AudioType.destroy, AudioSourceType.game);
+            AudioManager_BrickBreaker.Instance.PlaySound(AudioType_BrickBreaker.destroy, AudioSourceType_BrickBreaker.game);
             Destroy(gameObject);
         }
     }
