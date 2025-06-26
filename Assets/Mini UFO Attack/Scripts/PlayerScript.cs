@@ -117,6 +117,8 @@ public class PlayerScript : MonoBehaviour
             spawnPos -= spawnpoint.forward * 0.5f;
 
             GameObject newBullet = Instantiate(bulletPrefab, spawnPos, spawnpoint.rotation);
+            // PLazerScript bulletScript = newBullet.GetComponent<PLazerScript>();
+            // if (bulletScript != null) bulletScript.damage = 1; 
         }
         _audioSource.Play();
     }
