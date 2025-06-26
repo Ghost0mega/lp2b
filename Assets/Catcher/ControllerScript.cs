@@ -6,7 +6,7 @@ public class ControllerScript : MonoBehaviour
     public static int score = 0; // Score variable to keep track of the score
     public bool isGameRunning = true; // Variable to control the game state
 
-    public float maxTime = 90.0f;
+    public float maxTime;
     private float timeRemaining;
 
     [SerializeField] private TextMeshProUGUI scoreText;
@@ -30,6 +30,9 @@ public class ControllerScript : MonoBehaviour
             {
                 StopGame(); // Stop the game when time runs out
             }
+        } else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartGame();
         }
     }
 
