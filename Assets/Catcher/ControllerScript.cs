@@ -11,11 +11,16 @@ public class ControllerScript : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI timerText;
+
+    [Header("Game Over Logic")]
+    [SerializeField] private GameObject canvas; 
+    [SerializeField] private GameObject gameOverPanel;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void Start()
     {
-        StartGame();
+        ResetGame();
     }
 
     // Update is called once per frame
@@ -32,11 +37,11 @@ public class ControllerScript : MonoBehaviour
             }
         } else if (Input.GetKeyDown(KeyCode.Space))
         {
-            StartGame();
+            ResetGame();
         }
     }
 
-    private void StartGame()
+    public void ResetGame()
     {
         isGameRunning = true;
         SpawnerScript.isSpawning = true; // Start spawning fruits
@@ -50,8 +55,22 @@ public class ControllerScript : MonoBehaviour
     {
         isGameRunning = false;
         SpawnerScript.isSpawning = false; // Stop spawning fruits
-        timerText.text = "Time's up!";
-        scoreText.text = "Final Score: " + score;
+        // timerText.text = "Time's up!";
+        // scoreText.text = "Final Score: " + score;
+        if (gameOverPanel != null && canvas != null)
+        {
+            GameObject panel = Instantiate(gameOverPanel, canvas.transform);
+            GameOverScript gameOverScript = panel.GetComponent<GameOverScript>();
+            if (gameOverScript != null)
+            {
+                gameOverScript.finalScore = score;
+                gameOverScript.catcherController = this;
+            }
+            else
+            {
+                Debug.LogError("GameOverScript component not found on the game over panel.");
+            }
+        }
     }
 
     public void AddScore(int value)
