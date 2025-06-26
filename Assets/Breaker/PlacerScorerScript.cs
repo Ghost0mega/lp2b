@@ -20,6 +20,8 @@ public class PlacerScript : MonoBehaviour
     public int score = 0;
     public int lives = 3;
 
+    private bool playSound = false;
+
     public List<GameObject> bricks = new List<GameObject>();
     public BallScript ballScript;
 
@@ -51,6 +53,7 @@ public class PlacerScript : MonoBehaviour
             if (bricks.Count == 0)
             {
                 PlaceBricks(); // Refill bricks if all are destroyed
+                AudioManager.Instance.PlaySound(AudioType.win, AudioSourceType.game);
                 // ballScript.StartCoroutine(ballScript.SpawnBall(true)); // Respawn the ball
 
             }
@@ -75,6 +78,15 @@ public class PlacerScript : MonoBehaviour
         else
         {
             // Game over logic
+            if (playSound == false)
+            {
+                AudioManager.Instance.PlaySound(AudioType.gameover, AudioSourceType.game);
+                playSound = true;
+            }
+            if (score < 0)
+            {
+                score = 0; // Prevent negative score
+            }
             scoreText.text = "Game Over! Final Score: " + score;
             UpdateLivesImages();
             // foreach (GameObject brick in bricks)
