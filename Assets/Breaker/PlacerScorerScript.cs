@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class PlacerScript : MonoBehaviour
@@ -46,6 +47,10 @@ public class PlacerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("Menu");
+        }
         if (lives > 0)
         {
             // if (Input.GetMouseButtonDown(0)) // Left mouse button

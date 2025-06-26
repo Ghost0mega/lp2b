@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class ControllerScript : MonoBehaviour
@@ -35,9 +36,14 @@ public class ControllerScript : MonoBehaviour
             {
                 StopGame(); // Stop the game when time runs out
             }
-        } else if (Input.GetKeyDown(KeyCode.Space))
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
         {
             ResetGame();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("Menu");
         }
     }
 
