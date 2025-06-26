@@ -4,17 +4,23 @@ using Vector3 = UnityEngine.Vector3;
 
 public class Projecile : MonoBehaviour
 {
+    [Header("General Settings")]
     public float speed;
     public Vector3 direction;
     public bool isAllowedMovement = true;
-    public float lifetime = 8f; // Time before the projectile is destroyed
+    public float lifetime = 8f;
     public int damage = 0;
 
-    public bool isPlayerProjectile = false; // Indicates if the projectile belongs to the player
+    public bool isPlayerProjectile = false;
     private float timer;
-    public virtual void Launch(Vector3 direction) { /*criket*/ }
+    
+    public virtual void ContactDestroy()
+    {
+        // This method can be overridden in derived classes to handle specific destruction logic
+        Destroy(gameObject);
+    }
 
-    private void Start()
+    protected virtual void Start()
     {
         timer = lifetime; // Initialize the timer with the lifetime value
     }
@@ -59,7 +65,7 @@ public class Projecile : MonoBehaviour
             {
                 playerScript.TakeDamage(damage);
             }
-            Destroy(gameObject); // Destroy the projectile on collision with the player
+            ContactDestroy(); 
         }
 
         else if (collision.gameObject.CompareTag("Enemy") && isPlayerProjectile)
@@ -69,7 +75,7 @@ public class Projecile : MonoBehaviour
             {
                 enemyScript.TakeDamage(damage);
             }
-            Destroy(gameObject); // Destroy the projectile on collision with the enemy
+            ContactDestroy();
         }
     }
 }

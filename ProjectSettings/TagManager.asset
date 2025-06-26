@@ -5,11 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Ball
-  - Collectible
-  - joueur
   - Projectile
-  - Walls
-  - Pad
+  - Enemy
+  - Effect
   layers:
   - Default
   - TransparentFX
