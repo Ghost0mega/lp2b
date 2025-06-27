@@ -48,7 +48,6 @@ public class PlayerScript : MonoBehaviour
             _audioSource.playOnAwake = false;
             _audioSource.loop = false;
             _audioSource.volume = .5f;
-            _audioSource.clip = _shootSound;
         }
         if (miniExplosionPrefab == null || explosionPrefab == null)
         {

@@ -81,7 +81,6 @@ public class UFOControllerScript : MonoBehaviour
             float elapsedTime = Time.timeSinceLevelLoad;
             float lerpFactor = Mathf.Clamp01(elapsedTime / timeToLowestSpawnInterval);
             minSpawnInterval = Mathf.Lerp(initialMinSpawnInterval, 1f, lerpFactor);
-            minSpawnInterval = Mathf.Lerp(initialMinSpawnInterval, 1f, lerpFactor);
 
             spawnTimer -= Time.deltaTime;
 
