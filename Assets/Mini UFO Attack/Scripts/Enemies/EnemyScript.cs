@@ -6,6 +6,10 @@ public class Enemy : MonoBehaviour
     [Header("Enemy Settings")]
     public int health;
     protected bool hasFreeWill = false; // If false, the enemy will not do its update() logic
+
+    [SerializeField] private float freeWillXPosition = 8f;
+    public Transform playerTransform; 
+
     [Header("Death Animation Settings")]
     protected bool isMajorEnemy = false; //Used only for death animation
     [SerializeField] private GameObject MiniExplosionPrefab; // Optional explosion effect on death
@@ -24,10 +28,10 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogWarning("MiniExplosionPrefab is not assigned in the Enemy script.");
         }
-        StartCoroutine(MoveOntoScreen(8));
+        StartCoroutine(MoveOntoScreen(freeWillXPosition));
     }
 
-    private IEnumerator MoveOntoScreen(int finalX)
+    private IEnumerator MoveOntoScreen(float finalX)
     {
         // Debug.Log("Moving enemy onto screen...");
         Vector3 targetPosition = new Vector3(finalX, transform.position.y, 0f);

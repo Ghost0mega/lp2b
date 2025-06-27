@@ -5,7 +5,6 @@ public class ERammerScript : Enemy
     [Header("Rammer Settings")]
     [SerializeField] private float maxAcceleration = 5f;
     [SerializeField] private float maxTurningSpeed = 200f;
-    [SerializeField] private Transform playerTransform;
     public int damage = 1;
     private Rigidbody2D rb;
     override protected void Start()
