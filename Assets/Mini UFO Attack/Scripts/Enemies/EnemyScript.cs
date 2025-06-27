@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            // Play damage animation or sound if needed
+            AudioManager_UFO.Instance.PlayEnemy(AudioType_UFO.hitEnemy);
         }
     }
     protected void Die()
@@ -73,6 +73,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            AudioManager_UFO.Instance.PlayEnemy(AudioType_UFO.DestroyEnemyLaser);
             GameObject newAnim = Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
             newAnim.transform.localScale = transform.localScale * 0.5f;
         }

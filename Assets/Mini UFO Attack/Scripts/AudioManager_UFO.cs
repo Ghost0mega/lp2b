@@ -8,10 +8,17 @@ public enum AudioType_UFO
     shoot,
     die,
     gameover,
-    destroyEnemy1,
-    destroyEnemy2,
-    shootEnemy1,
-    shootEnemy2,
+    shooterShootEnemy,
+    LaserShootEnemy,
+    MissileShootEnemy,
+    hitEnemy,
+    shoothitPlayer,
+    LaserhitPlayer,
+    MissilehitPlayer,
+    DestroyEnemyShooter,
+    DestroyEnemyLaser,
+    DestroyEnemyMissile,
+    powerup,
     start,
     win,
 }
@@ -19,8 +26,9 @@ public enum AudioType_UFO
 public enum AudioSourceType_UFO
 {
     player,
-    
+
     game
+    
 }
 public class AudioManager_UFO : MonoBehaviour
 {
@@ -29,10 +37,10 @@ public class AudioManager_UFO : MonoBehaviour
     [Header("Sources fixes")]
     public AudioSource playerSound;
     public AudioSource gameSound;
-
+    public float vol = 1f;    
     [Header("Source dynamique")]
     public int maxSources = 32;             // ← # de sons « ennemi » qu’on accepte
-    private AudioSource[] pool;             // tableau d’AudioSource
+    private AudioSource[] enemieSource;             // tableau d’AudioSource
     private int next = 0;                   // index circulaire
 
     [System.Serializable]
@@ -40,30 +48,27 @@ public class AudioManager_UFO : MonoBehaviour
         public AudioClip clip;
         public AudioType_UFO type;
     }
-    public AudioData_UFO[] audioClips;      // tu continues d’utiliser ton tableau
-                                            // + ta fonction getClip(type)
+    
+    public AudioData_UFO[] audioClips;     
 
     void Awake ()
     {
         Instance = this;
 
-        /* ----- on fabrique le tableau de sources dynamiques ----- */
-        pool = new AudioSource[maxSources];
+        enemieSource = new AudioSource[maxSources];
 
         for (int i = 0; i < maxSources; i++)
         {
-            var src = gameObject.AddComponent<AudioSource>();  // crée le composant
+            var src = gameObject.AddComponent<AudioSource>();
             src.playOnAwake  = false;
-            src.spatialBlend = 0f;   // 100 % 2D :contentReference[oaicite:0]{index=0}
-            pool[i] = src;
+            src.spatialBlend = 0f;
+            enemieSource[i] = src;
         }
 
-        /* ----- sources fixes en 2D aussi ----- */
         playerSound.spatialBlend = 0f;
         gameSound.spatialBlend   = 0f;
     }
 
-    /* ---------- API UI / musique ---------- */
     public void PlayUISound(AudioType_UFO type, AudioSourceType_UFO chan = AudioSourceType_UFO.game)
     {
         AudioClip clip = getClip(type);
@@ -73,14 +78,13 @@ public class AudioManager_UFO : MonoBehaviour
         src.PlayOneShot(clip);              // superpose sans couper
     }
 
-    /* ---------- API « ennemi » 2D ---------- */
-    public void PlayEnemy(AudioType_UFO type, float vol = 1f)
+    public void PlayEnemy(AudioType_UFO type)
     {
         AudioClip clip = getClip(type);
         if (!clip) return;
 
-        AudioSource src = pool[next];
-        next = (next + 1) % pool.Length;    // on avance (ceci remplace la Queue)
+        AudioSource src = enemieSource[next];
+        next = (next + 1) % enemieSource.Length;    // on avance (ceci remplace la Queue)
 
         src.Stop();                         // si la voix rejoue trop vite
         src.clip   = clip;

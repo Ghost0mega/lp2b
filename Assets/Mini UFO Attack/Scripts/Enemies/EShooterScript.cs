@@ -20,7 +20,7 @@ public class EShooterScript : Enemy
         if (shootTimer <= 0f)
         {
             StartCoroutine(Shoot(shootOrder));
-            shootOrder = !shootOrder; 
+            shootOrder = !shootOrder;
             shootTimer = shootCooldown + shootInterval * 9;
         }
     }
@@ -36,9 +36,10 @@ public class EShooterScript : Enemy
             {
                 bulletScript.direction = new Vector3(-1, order ? -0.4f + 0.1f * i : 0.4f - 0.1f * i, 0).normalized;
             }
+            AudioManager_UFO.Instance.PlayEnemy(AudioType_UFO.shooterShootEnemy);
             yield return new WaitForSeconds(shootInterval); // Delay between shots
         }
-        
+
         Vector3 startPosition = transform.position;
         Vector3 targetPosition = startPosition + Vector3.left * 2f;
         float elapsed = 0f;
@@ -56,6 +57,7 @@ public class EShooterScript : Enemy
             yield return null;
         }
         transform.position = targetPosition;
+        
         
     }
 }

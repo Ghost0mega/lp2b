@@ -19,6 +19,7 @@ public class EMissileGuyScript : Enemy
         {
             ShootMissile();
             shootTimer = shootCooldown;
+            AudioManager_UFO.Instance.PlayEnemy(AudioType_UFO.MissileShootEnemy);
         }
     }
     

@@ -73,6 +73,8 @@ public class Projecile : MonoBehaviour
             if (enemyScript != null)
             {
                 enemyScript.TakeDamage(damage);
+                AudioManager_UFO.Instance.PlayEnemy(AudioType_UFO.hitEnemy);
+
             }
             ContactDestroy();
         }

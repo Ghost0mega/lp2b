@@ -12,6 +12,7 @@ public class PickupScript : Projecile
             if (player != null)
             {
                 player.AddPickup(pickupType);
+                AudioManager_UFO.Instance.PlayUISound(AudioType_UFO.powerup);
                 // Debug.Log("Pickup collected by player.");
                 ContactDestroy();
             }

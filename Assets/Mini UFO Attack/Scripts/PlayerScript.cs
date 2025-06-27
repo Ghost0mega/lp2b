@@ -116,13 +116,12 @@ public class PlayerScript : MonoBehaviour
         _controllerScript.uiUpdateLives(lives); // Update the UI with the new lives count
         if (lives <= 0)
         {
-            // Debug.Log("Player has died.");
+            AudioManager_UFO.Instance.PlayUISound(AudioType_UFO.die);
             StartCoroutine(Die());
         }
         else
         {
-            // Debug.Log("Player took damage: " + damage + ", remaining lives: " + lives);
-            // Optionally play a damage sound or animation here
+            AudioManager_UFO.Instance.PlayUISound(AudioType_UFO.shoothitPlayer);
         }
     }
 
@@ -147,6 +146,7 @@ public class PlayerScript : MonoBehaviour
 
     public void AddPickup(String pickupType)
     {
+        AudioManager_UFO.Instance.PlayUISound(AudioType_UFO.powerup);
         switch (pickupType)
         {
             case "bulletLayer":
