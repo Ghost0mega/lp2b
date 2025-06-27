@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Enemy : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class Enemy : MonoBehaviour
     protected bool hasFreeWill = false; // If false, the enemy will not do its update() logic
 
     [SerializeField] private float freeWillXPosition = 8f;
-    public Transform playerTransform; 
+    public Transform playerTransform;
 
     [Header("Death Animation Settings")]
     protected bool isMajorEnemy = false; //Used only for death animation
@@ -48,7 +49,7 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(0.3f);
         hasFreeWill = true;
     }
-    
+
     public virtual void TakeDamage(int damage)
     {
         health -= damage;
@@ -76,5 +77,26 @@ public class Enemy : MonoBehaviour
             newAnim.transform.localScale = transform.localScale * 0.5f;
         }
         Destroy(gameObject);
+
+        if (Random.Range(0f, 4f)< 1f)
+        {
+            SpawnPickup();
+        }
+    }
+    
+    protected void SpawnPickup()
+    {
+        if (_controllerScript.pickupPrefabs.Length == 0) return;
+
+        int randomIndex = Random.Range(0, _controllerScript.pickupPrefabs.Length);
+        GameObject pickupPrefab = _controllerScript.pickupPrefabs[randomIndex];
+        if (pickupPrefab != null)
+        {
+            Instantiate(pickupPrefab, transform.position, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogWarning("Pickup prefab is null at index: " + randomIndex);
+        }
     }
 }

@@ -144,6 +144,31 @@ public class PlayerScript : MonoBehaviour
         }
         _audioSource.Play();
     }
+
+    public void AddPickup(String pickupType)
+    {
+        switch (pickupType)
+        {
+            case "bulletLayer":
+                bulletLayerCount++;
+                Debug.Log("Bullet layer count increased to: " + bulletLayerCount);
+                _controllerScript.burstUpgrade++;
+                break;
+            case "speed":
+                shootCooldown = Mathf.Max(0.1f, shootCooldown - 0.1f);
+                Debug.Log("Speed increased to: " + speed);
+                _controllerScript.speedUpgrade++;
+                break;
+            case "health":
+                if (lives < 10) lives++;
+                _controllerScript.uiUpdateLives(lives); // Update the UI with the new lives count
+                break;
+            default:
+                Debug.LogWarning("Unknown pickup type: " + pickupType);
+                break;
+        }
+    }
+    
     
     private IEnumerator Die()
     {

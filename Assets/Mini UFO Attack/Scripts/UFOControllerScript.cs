@@ -22,6 +22,8 @@ public class UFOControllerScript : MonoBehaviour
     [SerializeField] private float timeToLowestSpawnInterval = 60f;
     [SerializeField] private GameObject[] enemyPrefab;
     [SerializeField] private float[] spawnProbabilities;
+
+    [SerializeField] public GameObject[] pickupPrefabs;
     private List<GameObject> enemies;
     // [SerializeField] private Transform playerTransform; // Reference to the player transform for enemy targeting
     private float spawnTimer;
