@@ -95,6 +95,11 @@ public class UFOControllerScript : MonoBehaviour
             {
                 GameOver();
             }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
+                return;
+            }
         }
             
         
