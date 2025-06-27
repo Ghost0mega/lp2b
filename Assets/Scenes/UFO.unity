@@ -768,6 +768,10 @@ MonoBehaviour:
   - {fileID: 1614232321}
   - {fileID: 1895150154}
   - {fileID: 1357283875}
+  gameOverPanel: {fileID: 680671745446444067, guid: 5f67aa7e0ec8db7478e39dafd922c607, type: 3}
+  score: 0
+  speedUpgrade: 0
+  burstUpgrade: 0
 --- !u!4 &688269849
 Transform:
   m_ObjectHideFlags: 0

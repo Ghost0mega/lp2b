@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
     }
     protected void Die()
     {
-        _controllerScript.score += 500;
+        _controllerScript.score += 10;
         if (isMajorEnemy)
         {
             // Play major enemy death animation

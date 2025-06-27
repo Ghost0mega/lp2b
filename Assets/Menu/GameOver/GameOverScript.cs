@@ -19,10 +19,12 @@ public class GameOverScript : MonoBehaviour
     public ControllerScript catcherController;
 
     public PlacerScript breakerController;
+    
+    public UFOControllerScript ufoController;
 
     // public UFOcontroller ufoController;
 
-    
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -54,10 +56,10 @@ public class GameOverScript : MonoBehaviour
         {
             breakerController.ResetGame();
         }
-        // else if (currentScene.name == "UFO")
-        // {
-        //     ufoController.ResetGame();
-        // }
+        else if (currentScene.name == "UFO")
+        {
+            ufoController.ResetGame();
+        }
         Destroy(gameObject);
     }
 

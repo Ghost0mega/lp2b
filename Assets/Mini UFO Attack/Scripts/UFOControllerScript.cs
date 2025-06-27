@@ -5,6 +5,7 @@ using TMPro;
 
 public class UFOControllerScript : MonoBehaviour
 {
+    private float scoreTimer = 0f;
     [Header("Player Settings")]
     [SerializeField] private GameObject playerPrefab;
     private GameObject player;
@@ -21,6 +22,7 @@ public class UFOControllerScript : MonoBehaviour
     [SerializeField] private float timeToLowestSpawnInterval = 60f;
     [SerializeField] private GameObject[] enemyPrefab;
     [SerializeField] private float[] spawnProbabilities;
+    private List<GameObject> enemies;
     // [SerializeField] private Transform playerTransform; // Reference to the player transform for enemy targeting
     private float spawnTimer;
     private float initialMinSpawnInterval;
@@ -31,6 +33,7 @@ public class UFOControllerScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI speedUpgradeText;
     [SerializeField] private TextMeshProUGUI burstUpgradeText;
     [SerializeField] private List<UnityEngine.UI.Image> livesImages;
+    [SerializeField] private GameObject gameOverPanel;
 
     [Header("Scores & sutch")]
     public int score = 0;
@@ -48,6 +51,7 @@ public class UFOControllerScript : MonoBehaviour
         }
         playerSpawnPoint = new Vector3(-6f, 0f, 5f);
         ResetGame();
+        isGameRunning = true;
     }
 
     private void Update()
@@ -61,15 +65,22 @@ public class UFOControllerScript : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
+                return;
             }
-            return;
         }
         else
         {
-            score += Mathf.FloorToInt(Time.deltaTime * 10);
+            // Increment score by 1 every second
+            scoreTimer += Time.deltaTime;
+            if (scoreTimer >= 1f)
+            {
+                score++;
+                scoreTimer -= (int)scoreTimer;
+            }
             Debug.Log("Score: " + score);
             float elapsedTime = Time.timeSinceLevelLoad;
             float lerpFactor = Mathf.Clamp01(elapsedTime / timeToLowestSpawnInterval);
+            minSpawnInterval = Mathf.Lerp(initialMinSpawnInterval, 1f, lerpFactor);
             minSpawnInterval = Mathf.Lerp(initialMinSpawnInterval, 1f, lerpFactor);
 
             spawnTimer -= Time.deltaTime;
@@ -80,7 +91,13 @@ public class UFOControllerScript : MonoBehaviour
                 spawnTimer = Random.Range(minSpawnInterval, maxSpawnInterval);
             }
             uiUpdateAll();
+            if (playerScript != null && playerScript.lives <= 0)
+            {
+                GameOver();
+            }
         }
+            
+        
     }
 
     public void ResetGame()
@@ -119,7 +136,42 @@ public class UFOControllerScript : MonoBehaviour
         spawnTimer = Random.Range(minSpawnInterval, maxSpawnInterval);
         uiUpdateAll();
     }
-    
+
+    public void GameOver()
+    {
+        isGameRunning = false;
+        if (player != null)
+        {
+            Destroy(player);
+            player = null;
+            playerScript = null;
+        }
+        if (enemies != null)
+        {
+            foreach (GameObject enemy in enemies)
+            {
+                if (enemy != null)
+                {
+                    Destroy(enemy);
+                }
+            }
+            enemies.Clear();
+        }
+        if (gameOverPanel != null)
+        {
+            GameObject panel = Instantiate(gameOverPanel, ufoCanvas.transform);
+            GameOverScript gameOverScript = panel.GetComponent<GameOverScript>();
+            if (gameOverScript != null)
+            {
+                gameOverScript.finalScore = score;
+                gameOverScript.ufoController = this;
+            }
+            else
+            {
+                Debug.LogError("GameOverScript component not found on the game over panel.");
+            }
+        }
+    }
     private void SpawnRandomEnemy()
     {
         if (enemyPrefab.Length == 0) return;
@@ -159,6 +211,11 @@ public class UFOControllerScript : MonoBehaviour
             enemyScript.playerTransform = player.transform;
             enemyScript._controllerScript = this;
         }
+        if (enemies == null)
+        {
+            enemies = new List<GameObject>();
+        }
+        enemies.Add(enemy);
     }
 
     public void uiUpdateAll()
