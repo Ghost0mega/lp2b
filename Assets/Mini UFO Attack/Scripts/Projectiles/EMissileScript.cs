@@ -6,7 +6,7 @@ public class EMissileScript : Projecile
     [SerializeField] private GameObject contactEffect;
     public Transform playerTransform;
 
-    protected override void Update()
+        protected override void Update()
     {
         if (playerTransform != null)
         {

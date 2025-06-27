@@ -45,6 +45,7 @@ public class Projecile : MonoBehaviour
         timer -= Time.deltaTime;
         if (timer <= 0f)
         {
+             AudioManager_UFO.Instance.PlayEnemy(AudioType_UFO.DestroyEnemyMissile);
             ContactDestroy();
         }  
 
@@ -73,8 +74,6 @@ public class Projecile : MonoBehaviour
             if (enemyScript != null)
             {
                 enemyScript.TakeDamage(damage);
-                AudioManager_UFO.Instance.PlayEnemy(AudioType_UFO.hitEnemy);
-
             }
             ContactDestroy();
         }

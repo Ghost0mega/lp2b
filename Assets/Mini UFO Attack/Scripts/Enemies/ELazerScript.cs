@@ -17,6 +17,7 @@ public class ELazerScript : Enemy
         if (shootTimer <= 0f)
         {
             StartCoroutine(Shoot());
+            AudioManager_UFO.Instance.PlayEnemy(AudioType_UFO.LaserShootEnemy);
         }
     }
 
