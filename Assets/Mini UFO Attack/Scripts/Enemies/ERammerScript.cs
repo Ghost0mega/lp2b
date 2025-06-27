@@ -25,18 +25,6 @@ public class ERammerScript : Enemy
 
     private void MoveTowardsPlayer()
     {
-        if (playerTransform == null)
-        {
-            Debug.LogWarning("Player Transform is not assigned in ERammerScript.");
-            return;
-        }
-
-        if (rb == null)
-        {
-            Debug.LogWarning("Rigidbody2D is missing on ERammerScript GameObject.");
-            return;
-        }
-
         Vector2 toPlayer = (playerTransform.position - transform.position).normalized;
 
         float angleToPlayer = Mathf.Atan2(toPlayer.y, toPlayer.x) * Mathf.Rad2Deg;
