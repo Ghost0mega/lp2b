@@ -7,7 +7,6 @@ public class EMissileGuyScript : Enemy
     [SerializeField] private float missileLifetime = 8f;
     [SerializeField] private GameObject missilePrefab;
     [SerializeField] private Transform missileSpawnPoint;
-    [SerializeField] private Transform playerTransform;
     private float shootTimer = 0f;
 
     // Update is called once per frame

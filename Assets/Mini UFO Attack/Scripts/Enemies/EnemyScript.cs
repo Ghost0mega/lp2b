@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     protected bool hasFreeWill = false; // If false, the enemy will not do its update() logic
 
     [SerializeField] private float freeWillXPosition = 8f;
+    public Transform playerTransform; 
 
     [Header("Death Animation Settings")]
     protected bool isMajorEnemy = false; //Used only for death animation
