@@ -25,7 +25,7 @@ public class Projecile : MonoBehaviour
         timer = lifetime; // Initialize the timer with the lifetime value
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (isAllowedMovement)
         {
@@ -43,11 +43,10 @@ public class Projecile : MonoBehaviour
     private void DeathChecker()
     {
         timer -= Time.deltaTime;
-
         if (timer <= 0f)
         {
-            Destroy(gameObject);
-        }
+            ContactDestroy();
+        }  
 
         if (transform.position.y > 6f || transform.position.y < -6f ||
             transform.position.x > 10f || transform.position.x < -10f)
@@ -56,7 +55,7 @@ public class Projecile : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player") && !isPlayerProjectile)
         {
