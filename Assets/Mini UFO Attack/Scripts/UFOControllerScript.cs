@@ -60,10 +60,6 @@ public class UFOControllerScript : MonoBehaviour
     {
         if (!isGameRunning)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                ResetGame();
-            }
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
