@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8799605063972800132}
   - component: {fileID: 5128565529143544190}
   - component: {fileID: 4096776806914590964}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PLazer
   m_TagString: Projectile
   m_Icon: {fileID: 0}

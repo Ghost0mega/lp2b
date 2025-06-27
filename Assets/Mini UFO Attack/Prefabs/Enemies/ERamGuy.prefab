@@ -166,11 +166,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b19211e55107b4da3bbc1d764ce074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _controllerScript: {fileID: 0}
   health: 2
-  freeWillXPosition: 8
+  freeWillXPosition: 7
+  playerTransform: {fileID: 0}
   MiniExplosionPrefab: {fileID: 1114610585204121888, guid: 6110d2a527f555444ae8664406480d87, type: 3}
   ExplosionPrefab: {fileID: 2649541525769310408, guid: 81091d486766bd2429d124d41fd15d85, type: 3}
   maxAcceleration: 5
   maxTurningSpeed: 0.2
-  playerTransform: {fileID: 0}
   damage: 3

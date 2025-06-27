@@ -166,8 +166,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32138f9d2b4798a47bd1dabfe24fa262, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 5
+  _controllerScript: {fileID: 0}
+  health: 4
   freeWillXPosition: 7
+  playerTransform: {fileID: 0}
   MiniExplosionPrefab: {fileID: 1114610585204121888, guid: 6110d2a527f555444ae8664406480d87, type: 3}
   ExplosionPrefab: {fileID: 2649541525769310408, guid: 81091d486766bd2429d124d41fd15d85, type: 3}
   shootCooldown: 8

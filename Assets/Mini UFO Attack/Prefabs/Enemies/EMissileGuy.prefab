@@ -166,12 +166,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 260529e7ee5c6534c81f7675c2dca9e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _controllerScript: {fileID: 0}
   health: 2
-  freeWillXPosition: 7
+  freeWillXPosition: 6
+  playerTransform: {fileID: 0}
   MiniExplosionPrefab: {fileID: 1114610585204121888, guid: 6110d2a527f555444ae8664406480d87, type: 3}
   ExplosionPrefab: {fileID: 2649541525769310408, guid: 81091d486766bd2429d124d41fd15d85, type: 3}
   shootCooldown: 5
   missileLifetime: 6
   missilePrefab: {fileID: 1350081581730306583, guid: 66f7ffa2ee7360548a2c6ec34821dea7, type: 3}
   missileSpawnPoint: {fileID: 6205269672175159836}
-  playerTransform: {fileID: 0}
