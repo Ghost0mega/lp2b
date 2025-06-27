@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
+    public UFOControllerScript _controllerScript; // Reference to the UFOControllerScript for score updates
     [Header("Enemy Settings")]
     public int health;
     protected bool hasFreeWill = false; // If false, the enemy will not do its update() logic
@@ -63,6 +64,7 @@ public class Enemy : MonoBehaviour
     }
     protected void Die()
     {
+        _controllerScript.score += 500;
         if (isMajorEnemy)
         {
             // Play major enemy death animation

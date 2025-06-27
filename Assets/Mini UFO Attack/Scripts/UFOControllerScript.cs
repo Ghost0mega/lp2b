@@ -33,9 +33,9 @@ public class UFOControllerScript : MonoBehaviour
     [SerializeField] private List<UnityEngine.UI.Image> livesImages;
 
     [Header("Scores & sutch")]
-    public static int score = 0;
-    public static int speedUpgrade = 0;
-    public static int burstUpgrade = 0;
+    public int score = 0;
+    public int speedUpgrade = 0;
+    public int burstUpgrade = 0;
     private bool isGameRunning = false;
 
 
@@ -66,6 +66,8 @@ public class UFOControllerScript : MonoBehaviour
         }
         else
         {
+            score += Mathf.FloorToInt(Time.deltaTime * 10);
+            Debug.Log("Score: " + score);
             float elapsedTime = Time.timeSinceLevelLoad;
             float lerpFactor = Mathf.Clamp01(elapsedTime / timeToLowestSpawnInterval);
             minSpawnInterval = Mathf.Lerp(initialMinSpawnInterval, 1f, lerpFactor);
@@ -77,6 +79,7 @@ public class UFOControllerScript : MonoBehaviour
                 SpawnRandomEnemy();
                 spawnTimer = Random.Range(minSpawnInterval, maxSpawnInterval);
             }
+            uiUpdateAll();
         }
     }
 
@@ -153,7 +156,8 @@ public class UFOControllerScript : MonoBehaviour
         Enemy enemyScript = enemy.GetComponent<Enemy>();
         if (enemyScript != null)
         {
-            enemyScript.playerTransform = player.transform; // Assign player transform for targeting
+            enemyScript.playerTransform = player.transform;
+            enemyScript._controllerScript = this;
         }
     }
 
