@@ -60,7 +60,7 @@ public class GameOverScript : MonoBehaviour
         // }
         Destroy(gameObject);
     }
- 
+
     private void AdaptToScene()
     {
         Scene currentScene = SceneManager.GetActiveScene();
@@ -76,7 +76,7 @@ public class GameOverScript : MonoBehaviour
             restartButtonText.fontSize = 15;
             exitButtonText.fontSize = 15;
         }
-        else
+        else if (currentScene.name == "Breaker")
         {
             gameOverText.font = fonts[1]; // Futuristic font
             finalScoreText.font = fonts[1];
@@ -87,6 +87,22 @@ public class GameOverScript : MonoBehaviour
             finalScoreText.fontSize = 15;
             restartButtonText.fontSize = 15;
             exitButtonText.fontSize = 15;
+        }
+        else if (currentScene.name == "UFO")
+        {
+            gameOverText.font = fonts[2];
+            finalScoreText.font = fonts[2];
+            restartButtonText.font = fonts[2];
+            exitButtonText.font = fonts[2];
+
+            gameOverText.fontSize = 20;
+            finalScoreText.fontSize = 15;
+            restartButtonText.fontSize = 15;
+            exitButtonText.fontSize = 15;
+        }
+        else
+        {
+            Debug.LogWarning("Unknown scene: " + currentScene.name);
         }
     }
 

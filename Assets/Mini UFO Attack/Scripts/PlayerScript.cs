@@ -87,7 +87,7 @@ public class PlayerScript : MonoBehaviour
         {
             moveDirection += Vector3.right;
         }
-        if (Input.GetKey(KeyCode.UpArrow) && transform.position.y < 4f)
+        if (Input.GetKey(KeyCode.UpArrow) && transform.position.y < 3f)
         {
             moveDirection += Vector3.up;
         }
