@@ -1,38 +1,123 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections.Generic;
+using TMPro;
 
 public class UFOControllerScript : MonoBehaviour
 {
+    [Header("Player Settings")]
+    [SerializeField] private GameObject playerPrefab;
+    private GameObject player;
+    private PlayerScript playerScript;
+    private Vector3 playerSpawnPoint;
+    [SerializeField] private int defaultBulletLayerCount;
+    [SerializeField] private float defaultShootCooldown;
+    [SerializeField] private int defaultLives;
+
+
     [Header("Enemy spawning settings")]
     [SerializeField] private float minSpawnInterval = 3f;
     [SerializeField] private float maxSpawnInterval = 5f;
     [SerializeField] private float timeToLowestSpawnInterval = 60f;
     [SerializeField] private GameObject[] enemyPrefab;
     [SerializeField] private float[] spawnProbabilities;
-    [SerializeField] private Transform playerTransform; // Reference to the player transform for enemy targeting
+    // [SerializeField] private Transform playerTransform; // Reference to the player transform for enemy targeting
     private float spawnTimer;
     private float initialMinSpawnInterval;
+
+    [Header("UI Settings")]
+    [SerializeField] private GameObject ufoCanvas;
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI speedUpgradeText;
+    [SerializeField] private TextMeshProUGUI burstUpgradeText;
+    [SerializeField] private List<UnityEngine.UI.Image> livesImages;
+
+    [Header("Scores & sutch")]
+    public static int score = 0;
+    public static int speedUpgrade = 0;
+    public static int burstUpgrade = 0;
+    private bool isGameRunning = false;
+
+
     private void Start()
     {
-        initialMinSpawnInterval = minSpawnInterval;
-        spawnTimer = Random.Range(minSpawnInterval, maxSpawnInterval);
-    }
-    
-    private void Update(){
-
-        float elapsedTime = Time.timeSinceLevelLoad;
-        float lerpFactor = Mathf.Clamp01(elapsedTime / timeToLowestSpawnInterval);
-        minSpawnInterval = Mathf.Lerp(initialMinSpawnInterval, 1f, lerpFactor);
-
-        spawnTimer -= Time.deltaTime;
-
-        if (spawnTimer <= 0f)
+        if (playerPrefab == null)
         {
-            SpawnEnemy();
-            spawnTimer = Random.Range(minSpawnInterval, maxSpawnInterval);
+            Debug.LogError("Player prefab is not assigned in UFOControllerScript.");
+            return;
+        }
+        playerSpawnPoint = new Vector3(-6f, 0f, 5f);
+        ResetGame();
+    }
+
+    private void Update()
+    {
+        if (!isGameRunning)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                ResetGame();
+            }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
+            }
+            return;
+        }
+        else
+        {
+            float elapsedTime = Time.timeSinceLevelLoad;
+            float lerpFactor = Mathf.Clamp01(elapsedTime / timeToLowestSpawnInterval);
+            minSpawnInterval = Mathf.Lerp(initialMinSpawnInterval, 1f, lerpFactor);
+
+            spawnTimer -= Time.deltaTime;
+
+            if (spawnTimer <= 0f)
+            {
+                SpawnRandomEnemy();
+                spawnTimer = Random.Range(minSpawnInterval, maxSpawnInterval);
+            }
         }
     }
 
-    private void SpawnEnemy()
+    public void ResetGame()
+    {
+        score = 0;
+        speedUpgrade = 0;
+        burstUpgrade = 0;
+
+        if (ufoCanvas != null)
+        {
+            ufoCanvas.SetActive(true);
+        }
+
+        if (playerPrefab != null)
+        {
+            player = Instantiate(playerPrefab, playerSpawnPoint, Quaternion.identity);
+            playerScript = player.GetComponent<PlayerScript>();
+            if (playerScript != null)
+            {
+                playerScript.bulletLayerCount = defaultBulletLayerCount;
+                playerScript.shootCooldown = defaultShootCooldown;
+                playerScript.lives = defaultLives;
+                playerScript._controller = gameObject; 
+            }
+            else
+            {
+                Debug.LogError("PlayerScript component not found on the player prefab.");
+            }
+        }
+        else
+        {
+            Debug.LogError("Player prefab is not assigned in UFOControllerScript.");
+        }
+        isGameRunning = true;
+        initialMinSpawnInterval = minSpawnInterval;
+        spawnTimer = Random.Range(minSpawnInterval, maxSpawnInterval);
+        uiUpdateAll();
+    }
+    
+    private void SpawnRandomEnemy()
     {
         if (enemyPrefab.Length == 0) return;
 
@@ -68,9 +153,57 @@ public class UFOControllerScript : MonoBehaviour
         Enemy enemyScript = enemy.GetComponent<Enemy>();
         if (enemyScript != null)
         {
-            enemyScript.playerTransform = playerTransform; // Assign player transform for targeting
+            enemyScript.playerTransform = player.transform; // Assign player transform for targeting
         }
     }
 
+    public void uiUpdateAll()
+    {
+        uiUpdateScore(score);
+        uiUpdateSpeed(speedUpgrade);
+        uiUpdateBurst(burstUpgrade);
+        uiUpdateLives(playerScript != null ? playerScript.lives : defaultLives);
+    }
 
+    private void uiUpdateScore(int score)
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score.ToString("D5");
+        }
+    }
+
+    private void uiUpdateSpeed(int speedUpgrades)
+    {
+        if (speedUpgradeText != null)
+        {
+            speedUpgradeText.text = speedUpgrades.ToString();
+        }
+    }
+
+    private void uiUpdateBurst(int burstUpgrades)
+    {
+        if (burstUpgradeText != null)
+        {
+            burstUpgradeText.text = burstUpgrades.ToString();
+        }
+    }
+
+    public void uiUpdateLives(int lives)
+    {
+        if (livesImages != null && livesImages.Count > 0)
+        {
+            for (int i = 0; i < livesImages.Count; i++)
+            {
+                if (i < lives)
+                {
+                    livesImages[i].enabled = true;
+                }
+                else
+                {
+                    livesImages[i].enabled = false;
+                }
+            }
+        }
+    }
 }

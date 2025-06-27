@@ -7,11 +7,13 @@ public class PlayerScript : MonoBehaviour
     [Header("Player Settings")]
     public GameObject bulletPrefab;
     public int bulletLayerCount = 1; // for power-ups or upgrades
-    public int bulletSideSpread = 0; //hard to implement this is for later
     public float shootCooldown = 0.5f; // can be used for power-ups or upgrades
     private float shootTimer = 0f;
 
+    public GameObject _controller;
+    private UFOControllerScript _controllerScript;
 
+    [Header("Audio Settings")]
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _shootSound;
 
@@ -24,6 +26,12 @@ public class PlayerScript : MonoBehaviour
     [SerializeField] private GameObject explosionPrefab;
     void Start()
     {
+        if (_controller == null)
+        {
+            Debug.LogError("Controller is not assigned in the PlayerScript.");
+            return;
+        }
+        _controllerScript = _controller.GetComponent<UFOControllerScript>();
         Debug.Log("Player initialized with " + lives + " lives.");
         if (bulletPrefab == null)
         {
@@ -106,6 +114,7 @@ public class PlayerScript : MonoBehaviour
     public void TakeDamage(int damage)
     {
         lives -= damage;
+        _controllerScript.uiUpdateLives(lives); // Update the UI with the new lives count
         if (lives <= 0)
         {
             // Debug.Log("Player has died.");
